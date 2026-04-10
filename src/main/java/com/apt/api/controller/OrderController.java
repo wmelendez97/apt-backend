@@ -65,4 +65,28 @@ public class OrderController {
                 .body(new ApiResponse<>(ApiMessages.ERROR_NOT_FOUND,
                         List.of(ApiError.ErrorCodes.NOT_FOUND), HttpStatus.NOT_FOUND));
     }
+
+    // Updates an existing order
+    @PutMapping("/{id}")
+    @Operation(summary = "Update order")
+    public ResponseEntity<ApiResponse<OrderResponse>> update(@PathVariable Long id, @RequestBody OrderRequest request) {
+        OrderResponse data = orderService.update(id, request);
+        return (data != null)
+                ? ResponseEntity.ok(new ApiResponse<>(data, ApiMessages.SUCCESS_UPDATE))
+                : ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ApiResponse<>(ApiMessages.ERROR_NOT_FOUND,
+                        List.of(ApiError.ErrorCodes.NOT_FOUND), HttpStatus.NOT_FOUND));
+    }
+
+    // Reactivates a cancelled order
+    @PostMapping("/reactivate/{id}")
+    @Operation(summary = "Reactivate order")
+    public ResponseEntity<ApiResponse<OrderResponse>> reactivate(@PathVariable Long id) {
+        OrderResponse data = orderService.reactivate(id);
+        return (data != null)
+                ? ResponseEntity.ok(new ApiResponse<>(data))
+                : ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ApiResponse<>(ApiMessages.ERROR_NOT_FOUND,
+                        List.of(ApiError.ErrorCodes.NOT_FOUND), HttpStatus.NOT_FOUND));
+    }
 }
