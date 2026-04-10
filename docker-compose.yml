@@ -1,0 +1,29 @@
+services:
+  db:
+    image: 'postgres:15.2'
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=apt
+      - POSTGRES_PASSWORD=apt
+      - POSTGRES_DB=apt_db
+    networks:
+      - apt-network
+
+  api:
+    build: .
+    container_name: apt
+    ports:
+      - '8080:8080'
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/apt_db
+      - SPRING_DATASOURCE_USERNAME=apt
+      - SPRING_DATASOURCE_PASSWORD=apt
+    depends_on:
+      - db
+    networks:
+      - apt-network
+
+networks:
+  apt-network:
+    driver: bridge
