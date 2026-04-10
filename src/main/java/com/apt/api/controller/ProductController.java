@@ -2,10 +2,12 @@ package com.apt.api.controller;
 
 import com.apt.api.dto.response.ProductResponse;
 import com.apt.api.service.ProductService;
+import com.apt.api.token.TokenRequired;
 import com.apt.api.util.ApiError;
 import com.apt.api.util.ApiMessages;
 import com.apt.api.util.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,7 +29,8 @@ public class ProductController {
 
     // Returns all available products
     @GetMapping
-    @Operation(summary = "List all products")
+    @TokenRequired
+    @Operation(summary = "List all products", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<ApiResponse<List<ProductResponse>>> getAll() {
         try {
             List<ProductResponse> data = productService.getAllProducts();
@@ -45,7 +48,8 @@ public class ProductController {
 
     // Returns a product by its ID
     @GetMapping("/{id}")
-    @Operation(summary = "Get product by ID")
+    @TokenRequired
+    @Operation(summary = "Get product by ID", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<ApiResponse<ProductResponse>> getById(@PathVariable Long id) {
         try {
             ProductResponse data = productService.getProductById(id);
@@ -68,7 +72,8 @@ public class ProductController {
 
     // Returns paginated products
     @GetMapping("/page")
-    @Operation(summary = "List paginated products")
+    @TokenRequired
+    @Operation(summary = "List paginated products", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<ApiResponse<Page<ProductResponse>>> getAllPaged(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int pageSize) {

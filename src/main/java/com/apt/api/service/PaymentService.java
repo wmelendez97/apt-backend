@@ -20,7 +20,7 @@ public class PaymentService {
     private final OrderRepository orderRepository;
 
     // Processes payment for an order
-    public PaymentResponse processPayment(PaymentRequest req) {
+    public PaymentResponse processPayment(PaymentRequest req, String email) {
         Order order = orderRepository.findById(req.getOrderId()).orElse(null);
         if (order == null || !order.getStatus().equals("PENDING")) {
             return null;
@@ -32,13 +32,13 @@ public class PaymentService {
         payment.setAmount(order.getTotal());
         payment.setTransactionId(UUID.randomUUID().toString());
         payment.setStatus("APPROVED");
-        payment.setCreatedBy("system");
+        payment.setCreatedBy(email);
         payment.setCreatedAt(LocalDateTime.now());
 
         Payment saved = paymentRepository.save(payment);
 
         order.setStatus("PAID");
-        order.setUpdatedBy("system");
+        order.setUpdatedBy(email);
         order.setUpdatedAt(LocalDateTime.now());
         orderRepository.save(order);
 

@@ -10,6 +10,7 @@ import com.apt.api.util.ApiMessages;
 import com.apt.api.util.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +42,7 @@ public class AuthController {
     // Gets authenticated customer information
     @GetMapping("/me")
     @TokenRequired
-    @Operation(summary = "Get authenticated user")
+    @Operation(summary = "Get authenticated user", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<ApiResponse<CustomerResponse>> me(HttpServletRequest request) {
         String email = (String) request.getAttribute("authenticatedUser");
         CustomerResponse data = authService.getCustomerByEmail(email);

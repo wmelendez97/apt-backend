@@ -71,11 +71,11 @@ public class OrderService {
     }
 
     // Creates a new order fetching prices from external API
-    public OrderResponse create(OrderRequest dto) {
+    public OrderResponse create(OrderRequest dto, String email) {
         Order order = new Order();
         order.setCustomerId(dto.getCustomerId());
         order.setStatus("PENDING");
-        order.setCreatedBy("system");
+        order.setCreatedBy(email);
         order.setCreatedAt(LocalDateTime.now());
 
         Order saved = orderRepository.save(order);
@@ -96,7 +96,7 @@ public class OrderService {
             detail.setPrice(price);
             detail.setQuantity(detailReq.getQuantity());
             detail.setSubtotal(subtotal);
-            detail.setCreatedBy("system");
+            detail.setCreatedBy(email);
             detail.setCreatedAt(LocalDateTime.now());
 
             orderDetailRepository.save(detail);
@@ -110,18 +110,18 @@ public class OrderService {
     }
 
     // Cancels an order if it is in PENDING status
-    public OrderResponse cancel(Long id) {
+    public OrderResponse cancel(Long id, String email) {
         return orderRepository.findById(id).map(order -> {
             if (!order.getStatus().equals("PENDING")) return null;
             order.setStatus("CANCELLED");
-            order.setUpdatedBy("system");
+            order.setUpdatedBy(email);
             order.setUpdatedAt(LocalDateTime.now());
             return mapToResponse(orderRepository.save(order));
         }).orElse(null);
     }
 
     // Updates an existing order
-    public OrderResponse update(Long id, OrderRequest dto) {
+    public OrderResponse update(Long id, OrderRequest dto, String email) {
         return orderRepository.findById(id).map(order -> {
             if (!order.getStatus().equals("PENDING")) return null;
 
@@ -152,7 +152,7 @@ public class OrderService {
             }
 
             order.setTotal(total);
-            order.setUpdatedBy("system");
+            order.setUpdatedBy(email);
             order.setUpdatedAt(LocalDateTime.now());
 
             return mapToResponse(orderRepository.save(order));
@@ -160,11 +160,11 @@ public class OrderService {
     }
 
     // Reactivates a cancelled order to PENDING status
-    public OrderResponse reactivate(Long id) {
+    public OrderResponse reactivate(Long id, String email) {
         return orderRepository.findById(id).map(order -> {
             if (!order.getStatus().equals("CANCELLED")) return null;
             order.setStatus("PENDING");
-            order.setUpdatedBy("system");
+            order.setUpdatedBy(email);
             order.setUpdatedAt(LocalDateTime.now());
             return mapToResponse(orderRepository.save(order));
         }).orElse(null);

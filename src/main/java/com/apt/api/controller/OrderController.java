@@ -3,16 +3,19 @@ package com.apt.api.controller;
 import com.apt.api.dto.request.OrderRequest;
 import com.apt.api.dto.response.OrderResponse;
 import com.apt.api.service.OrderService;
+import com.apt.api.token.TokenRequired;
 import com.apt.api.util.ApiError;
 import com.apt.api.util.ApiMessages;
 import com.apt.api.util.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -25,14 +28,16 @@ public class OrderController {
 
     // Returns all orders
     @GetMapping
-    @Operation(summary = "List all orders")
+    @TokenRequired
+    @Operation(summary = "List all orders", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<ApiResponse<List<OrderResponse>>> getAll() {
         return ResponseEntity.ok(new ApiResponse<>(orderService.findAll()));
     }
 
     // Returns an order by its ID
     @GetMapping("/{id}")
-    @Operation(summary = "Get order by ID")
+    @TokenRequired
+    @Operation(summary = "Get order by ID", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<ApiResponse<OrderResponse>> getById(@PathVariable Long id) {
         OrderResponse data = orderService.findById(id);
         return (data != null)
@@ -44,9 +49,11 @@ public class OrderController {
 
     // Creates a new order
     @PostMapping
-    @Operation(summary = "Create order")
-    public ResponseEntity<ApiResponse<OrderResponse>> create(@RequestBody OrderRequest request) {
-        OrderResponse data = orderService.create(request);
+    @TokenRequired
+    @Operation(summary = "Create order", security = @SecurityRequirement(name = "bearerAuth"))
+    public ResponseEntity<ApiResponse<OrderResponse>> create(@RequestBody OrderRequest request, HttpServletRequest httpRequest) {
+        String email = (String) httpRequest.getAttribute("authenticatedUser");
+        OrderResponse data = orderService.create(request, email);
         return (data != null)
                 ? ResponseEntity.ok(new ApiResponse<>(data, ApiMessages.SUCCESS_CREATION))
                 : ResponseEntity.badRequest()
@@ -56,9 +63,11 @@ public class OrderController {
 
     // Cancels an existing order
     @PostMapping("/cancel/{id}")
-    @Operation(summary = "Cancel order")
-    public ResponseEntity<ApiResponse<OrderResponse>> cancel(@PathVariable Long id) {
-        OrderResponse data = orderService.cancel(id);
+    @TokenRequired
+    @Operation(summary = "Cancel order", security = @SecurityRequirement(name = "bearerAuth"))
+    public ResponseEntity<ApiResponse<OrderResponse>> cancel(@PathVariable Long id, HttpServletRequest httpRequest) {
+        String email = (String) httpRequest.getAttribute("authenticatedUser");
+        OrderResponse data = orderService.cancel(id, email);
         return (data != null)
                 ? ResponseEntity.ok(new ApiResponse<>(data))
                 : ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -68,9 +77,11 @@ public class OrderController {
 
     // Updates an existing order
     @PutMapping("/{id}")
-    @Operation(summary = "Update order")
-    public ResponseEntity<ApiResponse<OrderResponse>> update(@PathVariable Long id, @RequestBody OrderRequest request) {
-        OrderResponse data = orderService.update(id, request);
+    @TokenRequired
+    @Operation(summary = "Update order", security = @SecurityRequirement(name = "bearerAuth"))
+    public ResponseEntity<ApiResponse<OrderResponse>> update(@PathVariable Long id, @RequestBody OrderRequest request, HttpServletRequest httpRequest) {
+        String email = (String) httpRequest.getAttribute("authenticatedUser");
+        OrderResponse data = orderService.update(id, request, email);
         return (data != null)
                 ? ResponseEntity.ok(new ApiResponse<>(data, ApiMessages.SUCCESS_UPDATE))
                 : ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -80,9 +91,11 @@ public class OrderController {
 
     // Reactivates a cancelled order
     @PostMapping("/reactivate/{id}")
-    @Operation(summary = "Reactivate order")
-    public ResponseEntity<ApiResponse<OrderResponse>> reactivate(@PathVariable Long id) {
-        OrderResponse data = orderService.reactivate(id);
+    @TokenRequired
+    @Operation(summary = "Reactivate order", security = @SecurityRequirement(name = "bearerAuth"))
+    public ResponseEntity<ApiResponse<OrderResponse>> reactivate(@PathVariable Long id, HttpServletRequest httpRequest) {
+        String email = (String) httpRequest.getAttribute("authenticatedUser");
+        OrderResponse data = orderService.reactivate(id, email);
         return (data != null)
                 ? ResponseEntity.ok(new ApiResponse<>(data))
                 : ResponseEntity.status(HttpStatus.NOT_FOUND)

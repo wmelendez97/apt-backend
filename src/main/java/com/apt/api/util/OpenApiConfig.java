@@ -18,8 +18,11 @@ public class OpenApiConfig {
 		return new OpenAPI()
 				.info(new Info().title("Apt Backend").version("0.0.1")
 						.description("Service for Apt Backend project management."))
-				.components(new Components().addSecuritySchemes(securitySchemeName, new SecurityScheme()
-						.name(securitySchemeName).type(SecurityScheme.Type.HTTP).scheme("bearer")
-						.bearerFormat("JWT")));
+				.components(new Components()
+						.addSecuritySchemes(securitySchemeName, new SecurityScheme()
+								.name(securitySchemeName)
+								.type(SecurityScheme.Type.HTTP)
+								.scheme("bearer")
+								.bearerFormat("JWT")));
 	}
 }
