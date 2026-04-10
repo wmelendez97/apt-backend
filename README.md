@@ -47,8 +47,9 @@ Esto levantará:
 Las migraciones se ejecutan automáticamente al iniciar la aplicación mediante **Flyway**.
 
 **Ubicación de migraciones:**
-src/main/resources/db/migration/
-├── V1__initial_schema.sql
+
+src/main/resources/db/migration/\
+├── V1__initial_schema.sql\
 └── V2__initial_data.sql
 
 **Datos de prueba incluidos:**
