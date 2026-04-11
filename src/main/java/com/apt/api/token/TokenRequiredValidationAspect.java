@@ -35,14 +35,14 @@ public class TokenRequiredValidationAspect {
 
 		if (authHeader == null || !authHeader.startsWith("Bearer ")) {
 			throw new TokenValidationException(
-					new ApiResponse<>(ApiMessages.ERROR_TOKEN_MISSING, null, HttpStatus.UNAUTHORIZED));
+					new ApiResponse<>(ApiMessages.ERROR_TOKEN_MISSING.getMessage(), null, HttpStatus.UNAUTHORIZED));
 		}
 
 		String token = authHeader.substring(7);
 
 		if (!jwtService.validateToken(token)) {
 			throw new TokenValidationException(
-					new ApiResponse<>(ApiMessages.ERROR_TOKEN_INVALID, null, HttpStatus.UNAUTHORIZED));
+					new ApiResponse<>(ApiMessages.ERROR_TOKEN_INVALID.getMessage(), null, HttpStatus.UNAUTHORIZED));
 		}
 
 		String user = jwtService.extractUser(token);

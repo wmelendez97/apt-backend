@@ -20,7 +20,7 @@ public class SecurityExceptionHandler {
 	// Invalid credentials
 	@ExceptionHandler(BadCredentialsException.class)
 	public ResponseEntity<ApiResponse<Object>> handleBadCredentials(BadCredentialsException ex) {
-		ApiResponse<Object> response = new ApiResponse<>(ApiMessages.ERROR_UNAUTHORIZED,
+		ApiResponse<Object> response = new ApiResponse<>(ApiMessages.ERROR_UNAUTHORIZED.getMessage(),
 				List.of(new ApiError("BAD_CREDENTIALS", "Invalid credentials")));
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
 	}
@@ -28,7 +28,7 @@ public class SecurityExceptionHandler {
 	// Invalid token
 	@ExceptionHandler(AuthenticationException.class)
 	public ResponseEntity<ApiResponse<Object>> handleAuthException(AuthenticationException ex) {
-		ApiResponse<Object> response = new ApiResponse<>(ApiMessages.ERROR_UNAUTHORIZED,
+		ApiResponse<Object> response = new ApiResponse<>(ApiMessages.ERROR_UNAUTHORIZED.getMessage(),
 				List.of(new ApiError("INVALID_TOKEN", "Invalid or expired authentication token")));
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
 	}
@@ -36,7 +36,7 @@ public class SecurityExceptionHandler {
 	// User without sufficient permissions
 	@ExceptionHandler(AccessDeniedException.class)
 	public ResponseEntity<ApiResponse<Object>> handleAccessDenied(AccessDeniedException ex) {
-		ApiResponse<Object> response = new ApiResponse<>(ApiMessages.ERROR_FORBIDDEN,
+		ApiResponse<Object> response = new ApiResponse<>(ApiMessages.ERROR_FORBIDDEN.getMessage(),
 				List.of(new ApiError("ACCESS_DENIED", "You do not have permission to access this resource")));
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
 	}

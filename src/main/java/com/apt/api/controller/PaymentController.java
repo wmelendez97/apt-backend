@@ -34,9 +34,9 @@ public class PaymentController {
         String email = (String) httpRequest.getAttribute("authenticatedUser");
         PaymentResponse data = paymentService.processPayment(request, email);
         return (data != null)
-                ? ResponseEntity.ok(new ApiResponse<>(data, ApiMessages.SUCCESS_CREATION))
+                ? ResponseEntity.ok(new ApiResponse<>(data, ApiMessages.SUCCESS_CREATION.getMessage()))
                 : ResponseEntity.badRequest()
-                .body(new ApiResponse<>(ApiMessages.ERROR_PROCESS,
+                .body(new ApiResponse<>(ApiMessages.ERROR_PROCESS.getMessage(),
                         List.of(ApiError.ErrorCodes.BAD_REQUEST), HttpStatus.BAD_REQUEST));
     }
 
@@ -49,7 +49,7 @@ public class PaymentController {
         return (data != null)
                 ? ResponseEntity.ok(new ApiResponse<>(data))
                 : ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ApiResponse<>(ApiMessages.ERROR_NOT_FOUND,
+                .body(new ApiResponse<>(ApiMessages.ERROR_NOT_FOUND.getMessage(),
                         List.of(ApiError.ErrorCodes.NOT_FOUND), HttpStatus.NOT_FOUND));
     }
 }

@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
 	// Generic unhandled error
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ApiResponse<Object>> handleGenericException(Exception ex) {
-		ApiResponse<Object> response = new ApiResponse<>(ApiMessages.ERROR_INTERNAL,
+		ApiResponse<Object> response = new ApiResponse<>(ApiMessages.ERROR_INTERNAL.getMessage(),
 				List.of(ApiError.ErrorCodes.INTERNAL_ERROR, new ApiError("EXCEPTION", ex.getMessage())));
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 	}
@@ -33,14 +33,14 @@ public class GlobalExceptionHandler {
 				.map(error -> new ApiError("VALIDATION_ERROR", error.getField() + ": " + error.getDefaultMessage()))
 				.collect(Collectors.toList());
 
-		ApiResponse<Object> response = new ApiResponse<>(ApiMessages.ERROR_VALIDATION, validationErrors);
+		ApiResponse<Object> response = new ApiResponse<>(ApiMessages.ERROR_VALIDATION.getMessage(), validationErrors);
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 	}
 
 	// Database integrity error
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	public ResponseEntity<ApiResponse<Object>> handleDBException(DataIntegrityViolationException ex) {
-		ApiResponse<Object> response = new ApiResponse<>(ApiMessages.ERROR_DB, List.of(ApiError.ErrorCodes.DB_ERROR,
+		ApiResponse<Object> response = new ApiResponse<>(ApiMessages.ERROR_DB.getMessage(), List.of(ApiError.ErrorCodes.DB_ERROR,
 				new ApiError("DB_CAUSE", ex.getMostSpecificCause().getMessage())));
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
 	}

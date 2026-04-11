@@ -37,11 +37,11 @@ public class ProductController {
             return ResponseEntity.ok(new ApiResponse<>(data));
         } catch (ResourceAccessException e) {
             return ResponseEntity.status(HttpStatus.GATEWAY_TIMEOUT)
-                    .body(new ApiResponse<>(ApiMessages.ERROR_EXTERNAL_SERVICE_TIMEOUT,
+                    .body(new ApiResponse<>(ApiMessages.ERROR_EXTERNAL_SERVICE_TIMEOUT.getMessage(),
                             List.of(ApiError.ErrorCodes.EXTERNAL_SERVICE_TIMEOUT), HttpStatus.GATEWAY_TIMEOUT));
         } catch (RestClientException e) {
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
-                    .body(new ApiResponse<>(ApiMessages.ERROR_EXTERNAL_SERVICE,
+                    .body(new ApiResponse<>(ApiMessages.ERROR_EXTERNAL_SERVICE.getMessage(),
                             List.of(ApiError.ErrorCodes.EXTERNAL_SERVICE_ERROR), HttpStatus.BAD_GATEWAY));
         }
     }
@@ -55,17 +55,17 @@ public class ProductController {
             ProductResponse data = productService.getProductById(id);
             if (data == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(new ApiResponse<>(ApiMessages.ERROR_NOT_FOUND,
+                        .body(new ApiResponse<>(ApiMessages.ERROR_NOT_FOUND.getMessage(),
                                 List.of(ApiError.ErrorCodes.NOT_FOUND), HttpStatus.NOT_FOUND));
             }
             return ResponseEntity.ok(new ApiResponse<>(data));
         } catch (ResourceAccessException e) {
             return ResponseEntity.status(HttpStatus.GATEWAY_TIMEOUT)
-                    .body(new ApiResponse<>(ApiMessages.ERROR_EXTERNAL_SERVICE_TIMEOUT,
+                    .body(new ApiResponse<>(ApiMessages.ERROR_EXTERNAL_SERVICE_TIMEOUT.getMessage(),
                             List.of(ApiError.ErrorCodes.EXTERNAL_SERVICE_TIMEOUT), HttpStatus.GATEWAY_TIMEOUT));
         } catch (RestClientException e) {
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
-                    .body(new ApiResponse<>(ApiMessages.ERROR_EXTERNAL_SERVICE,
+                    .body(new ApiResponse<>(ApiMessages.ERROR_EXTERNAL_SERVICE.getMessage(),
                             List.of(ApiError.ErrorCodes.EXTERNAL_SERVICE_ERROR), HttpStatus.BAD_GATEWAY));
         }
     }
@@ -82,11 +82,11 @@ public class ProductController {
             return ResponseEntity.ok(new ApiResponse<>(data));
         } catch (ResourceAccessException e) {
             return ResponseEntity.status(HttpStatus.GATEWAY_TIMEOUT)
-                    .body(new ApiResponse<>(ApiMessages.ERROR_EXTERNAL_SERVICE_TIMEOUT,
+                    .body(new ApiResponse<>(ApiMessages.ERROR_EXTERNAL_SERVICE_TIMEOUT.getMessage(),
                             List.of(ApiError.ErrorCodes.EXTERNAL_SERVICE_TIMEOUT), HttpStatus.GATEWAY_TIMEOUT));
         } catch (RestClientException e) {
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
-                    .body(new ApiResponse<>(ApiMessages.ERROR_EXTERNAL_SERVICE,
+                    .body(new ApiResponse<>(ApiMessages.ERROR_EXTERNAL_SERVICE.getMessage(),
                             List.of(ApiError.ErrorCodes.EXTERNAL_SERVICE_ERROR), HttpStatus.BAD_GATEWAY));
         }
     }

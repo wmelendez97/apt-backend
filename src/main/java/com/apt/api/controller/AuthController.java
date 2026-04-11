@@ -35,7 +35,7 @@ public class AuthController {
         return (data != null)
                 ? ResponseEntity.ok(new ApiResponse<>(data))
                 : ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(new ApiResponse<>(ApiMessages.ERROR_UNAUTHORIZED,
+                .body(new ApiResponse<>(ApiMessages.ERROR_UNAUTHORIZED.getMessage(),
                         List.of(ApiError.ErrorCodes.UNAUTHORIZED), HttpStatus.UNAUTHORIZED));
     }
 
@@ -49,7 +49,7 @@ public class AuthController {
         return (data != null)
                 ? ResponseEntity.ok(new ApiResponse<>(data))
                 : ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ApiResponse<>(ApiMessages.ERROR_NOT_FOUND,
+                .body(new ApiResponse<>(ApiMessages.ERROR_NOT_FOUND.getMessage(),
                         List.of(ApiError.ErrorCodes.NOT_FOUND), HttpStatus.NOT_FOUND));
     }
 }

@@ -43,7 +43,7 @@ public class OrderController {
         return (data != null)
                 ? ResponseEntity.ok(new ApiResponse<>(data))
                 : ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ApiResponse<>(ApiMessages.ERROR_NOT_FOUND,
+                .body(new ApiResponse<>(ApiMessages.ERROR_NOT_FOUND.getMessage(),
                         List.of(ApiError.ErrorCodes.NOT_FOUND), HttpStatus.NOT_FOUND));
     }
 
@@ -55,9 +55,9 @@ public class OrderController {
         String email = (String) httpRequest.getAttribute("authenticatedUser");
         OrderResponse data = orderService.create(request, email);
         return (data != null)
-                ? ResponseEntity.ok(new ApiResponse<>(data, ApiMessages.SUCCESS_CREATION))
+                ? ResponseEntity.ok(new ApiResponse<>(data, ApiMessages.SUCCESS_CREATION.getMessage()))
                 : ResponseEntity.badRequest()
-                .body(new ApiResponse<>(ApiMessages.ERROR_PROCESS,
+                .body(new ApiResponse<>(ApiMessages.ERROR_PROCESS.getMessage(),
                         List.of(ApiError.ErrorCodes.BAD_REQUEST), HttpStatus.BAD_REQUEST));
     }
 
@@ -71,7 +71,7 @@ public class OrderController {
         return (data != null)
                 ? ResponseEntity.ok(new ApiResponse<>(data))
                 : ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ApiResponse<>(ApiMessages.ERROR_NOT_FOUND,
+                .body(new ApiResponse<>(ApiMessages.ERROR_NOT_FOUND.getMessage(),
                         List.of(ApiError.ErrorCodes.NOT_FOUND), HttpStatus.NOT_FOUND));
     }
 
@@ -83,9 +83,9 @@ public class OrderController {
         String email = (String) httpRequest.getAttribute("authenticatedUser");
         OrderResponse data = orderService.update(id, request, email);
         return (data != null)
-                ? ResponseEntity.ok(new ApiResponse<>(data, ApiMessages.SUCCESS_UPDATE))
+                ? ResponseEntity.ok(new ApiResponse<>(data, ApiMessages.SUCCESS_UPDATE.getMessage()))
                 : ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ApiResponse<>(ApiMessages.ERROR_NOT_FOUND,
+                .body(new ApiResponse<>(ApiMessages.ERROR_NOT_FOUND.getMessage(),
                         List.of(ApiError.ErrorCodes.NOT_FOUND), HttpStatus.NOT_FOUND));
     }
 
@@ -99,7 +99,7 @@ public class OrderController {
         return (data != null)
                 ? ResponseEntity.ok(new ApiResponse<>(data))
                 : ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ApiResponse<>(ApiMessages.ERROR_NOT_FOUND,
+                .body(new ApiResponse<>(ApiMessages.ERROR_NOT_FOUND.getMessage(),
                         List.of(ApiError.ErrorCodes.NOT_FOUND), HttpStatus.NOT_FOUND));
     }
 }

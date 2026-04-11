@@ -29,14 +29,14 @@ public class ApiResponse<T> {
 
 	// Success with standard message
 	public ApiResponse(T data) {
-		this(data, ApiMessages.SUCCESS_ACTION);
+		this(data, ApiMessages.SUCCESS_ACTION.getMessage());
 	}
 
 	// Success with custom message
 	public ApiResponse(T data, String message) {
 		this.data = data;
 		this.success = true;
-		this.message = (message != null) ? message : ApiMessages.SUCCESS_ACTION;
+		this.message = (message != null) ? message : ApiMessages.SUCCESS_ACTION.getMessage();
 		this.code = HttpStatus.OK.value();
 		this.status = HttpStatus.OK;
 		this.errors = List.of();
@@ -45,7 +45,7 @@ public class ApiResponse<T> {
 
 	// Error with standard message
 	public ApiResponse(List<ApiError> errors) {
-		this(ApiMessages.ERROR_PROCESS, errors, HttpStatus.BAD_REQUEST);
+		this(ApiMessages.ERROR_PROCESS.getMessage(), errors, HttpStatus.BAD_REQUEST);
 	}
 
 	// Error with custom message
@@ -57,7 +57,7 @@ public class ApiResponse<T> {
 	public ApiResponse(String message, List<ApiError> errors, HttpStatus status) {
 		this.data = null;
 		this.success = false;
-		this.message = (message != null) ? message : ApiMessages.ERROR_PROCESS;
+		this.message = (message != null) ? message : ApiMessages.ERROR_PROCESS.getMessage();
 		this.code = status.value();
 		this.status = status;
 		this.errors = errors;
