@@ -1,12 +1,15 @@
 package com.apt.api;
 
-/*
- * import org.junit.jupiter.api.Test; import
- * org.springframework.boot.test.context.SpringBootTest;
- * 
- * @SpringBootTest class AptBackendApplicationTests {
- * 
- * @Test void contextLoads() { }
- * 
- * }
- */
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+
+@SpringBootTest
+@ActiveProfiles("test")
+class AptBackendApplicationTests {
+
+    @Test
+    void contextLoads() {
+    }
+
+}
