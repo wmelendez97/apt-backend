@@ -361,7 +361,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "localhost:8080/api/orders/2",
+              "raw": "localhost:8080/api/orders/1",
               "host": [
                 "localhost"
               ],
@@ -369,7 +369,7 @@
               "path": [
                 "api",
                 "orders",
-                "2"
+                "1"
               ]
             }
           },
@@ -448,7 +448,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "localhost:8080/api/payments/order/2",
+              "raw": "localhost:8080/api/payments/order/1",
               "host": [
                 "localhost"
               ],
@@ -457,7 +457,7 @@
                 "api",
                 "payments",
                 "order",
-                "2"
+                "1"
               ]
             }
           },
@@ -508,13 +508,14 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:8080/v3/api-docs",
+              "raw": "http://localhost:8080/api/v3/api-docs",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
               "port": "8080",
               "path": [
+                "api",
                 "v3",
                 "api-docs"
               ]
@@ -528,13 +529,14 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:8080/actuator/logfile",
+              "raw": "http://localhost:8080/api/actuator/logfile",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
               "port": "8080",
               "path": [
+                "api",
                 "actuator",
                 "logfile"
               ]

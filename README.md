@@ -36,9 +36,9 @@ Esto levantará:
 
 ### Endpoints disponibles:
 
-- **Swagger UI**: `http://localhost:8080/swagger-ui.html`
-- **OpenAPI Docs**: `http://localhost:8080/v3/api-docs`
-- **Actuator**: `http://localhost:8080/actuator/logfile`
+- **Swagger UI**: `http://localhost:8080/api/swagger-ui.html`
+- **OpenAPI Docs**: `http://localhost:8080/api/v3/api-docs`
+- **Actuator**: `http://localhost:8080/api/actuator/logfile`
 
 ### Collection de Postman 📮
 
