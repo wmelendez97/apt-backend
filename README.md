@@ -46,19 +46,31 @@ Importa la collection de Postman para probar los endpoints:
 
 **[📥 Descargar Collection](./docs/APT.Postman_Collection.json)**
 
+**Carpetas incluidas:**
+- **auth** - Login y datos del usuario autenticado
+- **products** - Listado, paginación y detalle de productos
+- **orders** - CRUD de órdenes, cancelar y reactivar
+- **payments** - Procesamiento de pagos y consulta por orden
+- **extras** - Swagger y Actuator
+
+**Configuración automática:**
+
+El login guarda automáticamente el token JWT en una variable de collection. Los demás endpoints lo usan de forma automática.
+
+**Credenciales de prueba:**
+```json
+{
+  "email": "testapt@yopmail.com",
+  "password": "pruebaApt123"
+}
+```
+
 **Pasos para importar:**
 1. Abre Postman
 2. Click en `Import`
-3. Selecciona el archivo `APT.Postman_Collection.json`
-4. La collection estará lista para usar
-
-**Variables de entorno sugeridas:**
-```json
-{
-  "base_url": "http://localhost:8080",
-  "token": "{{auth_token}}"
-}
-```
+3. Selecciona `APT.Postman_Collection.json`
+4. Ejecuta primero el endpoint `auth > login`
+5. El token se guardará automáticamente para los demás requests
 
 ---
 
