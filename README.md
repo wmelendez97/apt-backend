@@ -40,6 +40,26 @@ Esto levantará:
 - **OpenAPI Docs**: `http://localhost:8080/v3/api-docs`
 - **Actuator**: `http://localhost:8080/actuator/logfile`
 
+### Collection de Postman 📮
+
+Importa la collection de Postman para probar los endpoints:
+
+**[📥 Descargar Collection](./docs/APT.Postman_Collection.json)**
+
+**Pasos para importar:**
+1. Abre Postman
+2. Click en `Import`
+3. Selecciona el archivo `APT.Postman_Collection.json`
+4. La collection estará lista para usar
+
+**Variables de entorno sugeridas:**
+```json
+{
+  "base_url": "http://localhost:8080",
+  "token": "{{auth_token}}"
+}
+```
+
 ---
 
 ## Migraciones de Base de Datos 🗄️
