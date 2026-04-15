@@ -14,11 +14,24 @@ public class AppConfig {
     @Value("${external.api.base-url}")
     private String externalApiBaseUrl;
 
+    @Value("${external.api.fakestore.base-url}")
+    private String fakeStoreBaseUrl;
+
     // Builds a RestTemplate with base URL and timeouts for external API calls
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder
                 .rootUri(externalApiBaseUrl)
+                .setConnectTimeout(Duration.ofSeconds(5))
+                .setReadTimeout(Duration.ofSeconds(10))
+                .build();
+    }
+
+    // Builds a RestTemplate for FakeStore API with timeouts
+    @Bean
+    public RestTemplate fakeStoreRestTemplate(RestTemplateBuilder builder) {
+        return builder
+                .rootUri(fakeStoreBaseUrl)
                 .setConnectTimeout(Duration.ofSeconds(5))
                 .setReadTimeout(Duration.ofSeconds(10))
                 .build();
