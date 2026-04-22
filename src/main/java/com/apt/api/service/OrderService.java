@@ -10,7 +10,8 @@ import com.apt.api.model.OrderDetail;
 import com.apt.api.proxy.contract.ProductApiClient;
 import com.apt.api.repository.OrderDetailRepository;
 import com.apt.api.repository.OrderRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -19,12 +20,30 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
-    private final ProductApiClient productApiClient;
+    private final ProductApiClient dummyClient;
+    private final ProductApiClient fakeStoreClient;
+
+    @Value("${external.api.active:dummyjson}")
+    private String activeApi;
+
+    public OrderService(OrderRepository orderRepository,
+                        OrderDetailRepository orderDetailRepository,
+                        @Qualifier("dummyJsonClient") ProductApiClient dummyClient,
+                        @Qualifier("fakeStoreClient") ProductApiClient fakeStoreClient) {
+        this.orderRepository = orderRepository;
+        this.orderDetailRepository = orderDetailRepository;
+        this.dummyClient = dummyClient;
+        this.fakeStoreClient = fakeStoreClient;
+    }
+
+    // Returns active client based on configuration
+    private ProductApiClient getActiveClient() {
+        return "fakestore".equals(activeApi) ? fakeStoreClient : dummyClient;
+    }
 
     // Converts OrderDetail to OrderDetailResponse
     private OrderDetailResponse mapDetailToResponse(OrderDetail d) {
@@ -83,7 +102,7 @@ public class OrderService {
         BigDecimal total = BigDecimal.ZERO;
 
         for (OrderDetailRequest detailReq : dto.getDetails()) {
-            ProductResponse product = productApiClient.getProductById(detailReq.getProductId());
+            ProductResponse product = getActiveClient().getProductById(detailReq.getProductId());
             if (product == null) continue;
 
             BigDecimal price = BigDecimal.valueOf(product.getPrice());
@@ -125,13 +144,12 @@ public class OrderService {
         return orderRepository.findById(id).map(order -> {
             if (!order.getStatus().equals("PENDING")) return null;
 
-            // Delete existing details
             orderDetailRepository.findByOrderId(id).forEach(orderDetailRepository::delete);
 
             BigDecimal total = BigDecimal.ZERO;
 
             for (OrderDetailRequest detailReq : dto.getDetails()) {
-                ProductResponse product = productApiClient.getProductById(detailReq.getProductId());
+                ProductResponse product = getActiveClient().getProductById(detailReq.getProductId());
                 if (product == null) continue;
 
                 BigDecimal price = BigDecimal.valueOf(product.getPrice());
